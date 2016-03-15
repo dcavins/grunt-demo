@@ -35,16 +35,20 @@ module.exports = function(grunt) {
 			}
 		},
 
-		// Autoprefixer handles vendor prefixes in css rules
-		autoprefixer: {
+		// PostCSS handles post-processing on CSS files. Used here to autoprefix and minify.
+		postcss: {
 			options: {
-				map: true
+				map: {
+					inline: false, // save all sourcemaps as separate files...
+					annotation: 'assets/css/' // ...to the specified directory
+				},
+				processors: [
+					require('autoprefixer')(),
+					require('cssnano')
+				]
 			},
-			files: {
-				expand: true,
-				flatten: true,
-				src: 'assets/css/*.css',
-				dest: 'assets/css/' //replaces source file
+			dist: {
+				src: 'assets/css/*.css'
 			}
 		},
 
